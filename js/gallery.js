@@ -7,10 +7,12 @@ renderGallery(images);
 
 gallery.addEventListener("click", (e) => {
   e.preventDefault();
-  if (e.target === e.currentTarget) return;
 
-  const largeImg = e.target.dataset.source;
-  const altImages = e.target.alt;
+  const target = e.target;
+  const largeImg = target.dataset.source;
+  const altImages = target.alt;
+
+  if (target === e.currentTarget || !largeImg || !altImages) return;
 
   const instance = basicLightbox.create(`
     <div class="modal">
@@ -18,14 +20,19 @@ gallery.addEventListener("click", (e) => {
     </div>
   `);
 
-  instance.show();
+  instance.onShow(() => {
+    document.addEventListener("keydown", keydownHandler);
+  });
 
-  document.addEventListener("keydown", keydownHandler);
+  instance.onClose(() => {
+    document.removeEventListener("keydown", keydownHandler);
+  });
+
+  instance.show();
 
   function keydownHandler(keyEsc) {
     if (keyEsc.code === "Escape") {
       instance.close();
-      document.removeEventListener("keydown", keydownHandler);
     }
   }
 });
