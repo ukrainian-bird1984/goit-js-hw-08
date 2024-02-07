@@ -5,6 +5,12 @@ function renderGallery(images) {
 
 renderGallery(images);
 
+function keydownHandler(e, instance) {
+  if (e.code === "Escape") {
+    instance.close();
+  }
+}
+
 gallery.addEventListener("click", (e) => {
   e.preventDefault();
 
@@ -21,18 +27,12 @@ gallery.addEventListener("click", (e) => {
   `);
 
   instance.onShow(() => {
-    document.addEventListener("keydown", keydownHandler);
+    document.addEventListener("keydown", (e) => keydownHandler(e, instance));
   });
 
   instance.onClose(() => {
-    document.removeEventListener("keydown", keydownHandler);
+    document.removeEventListener("keydown", (e) => keydownHandler(e, instance));
   });
 
   instance.show();
-
-  function keydownHandler(keyEsc) {
-    if (keyEsc.code === "Escape") {
-      instance.close();
-    }
-  }
 });
