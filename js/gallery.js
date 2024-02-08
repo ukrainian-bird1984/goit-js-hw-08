@@ -10,18 +10,20 @@ function keydownHandler(e, instance) {
 }
 
 function createModal(largeImg, altImages) {
-  return basicLightbox.create(`
+  const instance = basicLightbox.create(`
     <div class="modal">
       <img src="${largeImg}" width="700" height="400" alt="${altImages}">
     </div>
   `, {
     onShow: () => {
-      document.addEventListener("keydown", (e) => keydownHandler(e, instance));
+      document.addEventListener("keydown", keydownHandler);
     },
     onClose: () => {
-      document.removeEventListener("keydown", (e) => keydownHandler(e, instance));
+      document.removeEventListener("keydown", keydownHandler);
     }
   });
+
+  return instance;
 }
 
 gallery.addEventListener("click", (e) => {
@@ -33,7 +35,6 @@ gallery.addEventListener("click", (e) => {
 
   if (target === e.currentTarget || !largeImg || !altImages) return;
 
-  let instance = createModal(largeImg, altImages);
-
+  const instance = createModal(largeImg, altImages);
   instance.show();
 });
