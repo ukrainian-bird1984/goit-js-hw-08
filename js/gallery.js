@@ -16,10 +16,10 @@ function createModal(largeImg, altImages) {
     </div>
   `, {
     onShow: () => {
-      document.addEventListener("keydown", keydownHandler);
+      document.addEventListener("keydown", (e) => keydownHandler(e, instance));
     },
     onClose: () => {
-      document.removeEventListener("keydown", keydownHandler);
+      document.removeEventListener("keydown", (e) => keydownHandler(e, instance));
     }
   });
 
