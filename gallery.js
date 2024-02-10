@@ -1,3 +1,5 @@
+const gallery = document.querySelector('.gallery');
+
 function renderGallery(images) {
   const renderGalleryItem = images.map(createGalleryItem);
   gallery.append(...renderGalleryItem);
